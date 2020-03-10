@@ -14,18 +14,16 @@ def load_matrix() -> list:
 
 
 def is_valid_matrix(matrix: list):
-    if type(matrix) != list:
-        raise ValueError('Not a matrix')
     row_len = len(matrix)
     if row_len < 1:
         raise ValueError('Not a valid matrix')
     for row in matrix:
-        if type(row) != list:
+        if not isinstance(row, list):
             raise ValueError('Not a matrix')
         if row_len != len(row):
             raise ValueError('Not a square matrix')
         for column in row:
-            if type(column) != int:
+            if not isinstance(column, int) and not isinstance(column, float):
                 raise ValueError('Not a matrix of numbers')
 
 
@@ -46,4 +44,4 @@ def det(matrix: list) -> int:
 if __name__ == '__main__':
     matrix = load_matrix()
     is_valid_matrix(matrix)
-    print(det(matrix))
+    print(f'Determinant = {det(matrix)}')

@@ -12,7 +12,7 @@ def is_word(word: str):
 
 def validate_name(string: str):
     words = string.split()
-    if len(words) > 3:
+    if len(words) > 3 or len(words) not in (0, 1):
         return False
     type_words = []
     for word in words:
@@ -23,9 +23,9 @@ def validate_name(string: str):
     if not type_words[0]:
         if type_words[1] and len(words) == 2:
             return True
-        if not type_words[1] and type_words[2]:
+        if len(words) == 3 and not type_words[1] and type_words[2]:
             return True
-    else:
+    elif len(words) == 3:
         if type_words[1] and type_words[2]:
             return True
         elif not type_words[1] and type_words[2]:

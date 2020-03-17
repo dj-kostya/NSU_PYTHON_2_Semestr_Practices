@@ -1,0 +1,23 @@
+[
+  {
+    "max_weight": 42,
+    "items": [
+      {
+        "weight": 15,
+        "cost": 37
+      },
+      {
+        "weight": 11,
+        "cost": 16
+      },
+      {
+        "weight": 37,
+        "cost": 45
+      },
+      {
+        "weight": 23,
+        "cost": 40
+      }
+    ]
+  }
+]

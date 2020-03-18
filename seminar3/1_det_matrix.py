@@ -28,7 +28,10 @@ def is_valid_matrix(matrix: list):
 
 
 def det(matrix: list) -> int:
+    is_valid_matrix(matrix)
     matrix_size = len(matrix)
+    if matrix_size == 1:
+        return matrix[0][0]
     if matrix_size == 2:
         return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
     determinant = 0
@@ -41,7 +44,14 @@ def det(matrix: list) -> int:
     return determinant
 
 
+def pprint_matrix(matrix: list):
+    for row in matrix:
+        for item in row:
+            print(item, end=' ')
+        print()
+
+
 if __name__ == '__main__':
     matrix = load_matrix()
-    is_valid_matrix(matrix)
+    pprint_matrix(matrix)
     print(f'Determinant = {det(matrix)}')

@@ -3,6 +3,7 @@
 import json
 import os
 
+
 INPUT_MATRIX = 'Matrix1.json'
 
 

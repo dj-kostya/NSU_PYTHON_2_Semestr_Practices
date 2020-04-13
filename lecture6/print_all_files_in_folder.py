@@ -6,7 +6,6 @@ def print_all_files(folder='.'):
     for path in directory.get_all_files_in_folder():
         print(path)
 
-
 # print_all_files(folder='.') ->
 # path\to\project\lecture6\dataloader.py
 # path\to\project\lecture6\filename_validator.py

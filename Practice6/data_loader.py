@@ -101,38 +101,68 @@ class DataLoader:
         for extension in _class.get_readable_formats():
             __AVAILABLE_EXTENSIONS__[extension] = _class
 
-    def __init__(self, path):
+    def __init__(self, path, formats):
         self.path: Path = Path(path)
         self.stringify_path = str(self.path)
         self.is_exists = self.path.exists()
         self.abs_path = self.path.absolute()
         self.stringify_abs_path = str(self.abs_path)
+
+        difference_extension = set(formats) - set(self.__AVAILABLE_EXTENSIONS__.keys())
+        if difference_extension:
+            raise TypeError(f'Exception {difference_extension} is not supported')
+        self.formats = formats
         if not self.is_exists:
             return
         self.is_file = self.path.is_file()
         self.is_dir = self.path.is_dir()
         if self.is_file:
             self.name, self.ext = os.path.splitext(self.stringify_path)
-            try:
-                self.reading_class = self.__AVAILABLE_EXTENSIONS__[self.ext]
-            except KeyError:
-                raise ExtensionError(
-                    f'Invalid extension: {self.ext}. Available extensions: {self.__AVAILABLE_EXTENSIONS__.keys()}')
+            self.reading_class = self._get_file_reading_class(self.ext)
 
     def _validate_reading_dir(self):
         if not self.is_dir:
             raise FileNotFoundError(f"{self.stringify_path} not a directory")
 
-    def folder_walk(self, finding_depth: int = None):
+    def _get_file_reading_class(self, ext: str):
+        try:
+            return self.__AVAILABLE_EXTENSIONS__[ext]
+        except KeyError:
+            raise ExtensionError(
+                f'Invalid extension: {ext}. Available extensions: {self.__AVAILABLE_EXTENSIONS__.keys()}')
+
+    def __get_all_files_in_folders(self):
         self._validate_reading_dir()
         dir_name = self.path.name
         len_of_dir_name = len(dir_name)
         for root, subFolders, files in os.walk(self.stringify_path):
-            yield (root, subFolders, files,
-                   finding_depth is not None and root[len_of_dir_name:].count(os.sep) == finding_depth - 1)
+            depth = root[len_of_dir_name:].count(os.sep) + 1
+            for file in files:
+                file_path = os.path.join(root, file)
+                _, ext = os.path.splitext(file_path)
+                if ext not in self.formats:
+                    continue
+                reading_class = self._get_file_reading_class(ext)
+                yield file_path, reading_class(file_path), depth
 
+    def folder_walk_iter(self):
+        for file_path, reader, depth in self.__get_all_files_in_folders():
+            for line in reader.read_lines_iter():
+                yield file_path, line, depth
 
-if __name__ == '__main__':
-    d = DataLoader('wiki_articles')
-    for root, subFold, files, is_finded in d.folder_walk(finding_depth=1):
-        print(root, files, is_finded)
+    def folder_walk(self):
+        for file_path, reader, depth in self.__get_all_files_in_folders():
+            yield file_path, reader.read_lines(), depth
+
+# if __name__ == '__main__':
+#     d = DataLoader('wiki_articles')
+#     for root, lines, depth in d.folder_walk():
+#         print(root, depth)
+
+# OUTPUT:
+# wiki_articles\ml_frameworks\pytorch.txt 2
+# wiki_articles\ml_frameworks\tensorflow.txt 2
+# wiki_articles\programming_languages\compiled\c++.pdf 3
+# wiki_articles\programming_languages\compiled\java.txt 3
+# wiki_articles\programming_languages\interpreted\python.txt 3
+# wiki_articles\programming_languages\interpreted\r.docx 3

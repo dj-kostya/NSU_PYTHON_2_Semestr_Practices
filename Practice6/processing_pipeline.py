@@ -41,24 +41,34 @@ def make_directory(file_path):
         os.makedirs(directory)
 
 
-def processing(lines):
-    processed_data = []
-    for line in lines:
+def processing(lines_of_file):
+    """
+    Processing lines of files
+    :param lines_of_file:
+    :return: processed lines of file
+    """
+    processed_lines = []
+    for line in lines_of_file:
         line = line.strip()
         regex = r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s'
         sentences = re.split(regex, line)
+        processed_lines.extend([sent + '\n' for sent in sentences])
+    return processed_lines
 
-        processed_data.extend([sent + '\n' for sent in sentences])
-    return processed_data
 
-
-def saving_data(processed_data, relative_path):
+def saving_data(processed_lines, relative_path_of_file):
+    """
+    Function for saving data in original tree
+    :param processed_lines:
+    :param relative_path_of_file: path to save
+    :return: None
+    """
     # TODO: make files saving with the same relative paths structure
     # ( right now all files will be saved in one dir, structure is lost )
-    file_path = os.path.join(SAVE_DIR_PATH, relative_path)
+    file_path = os.path.join(SAVE_DIR_PATH, relative_path_of_file)
     make_directory(file_path)
     with open(file_path, 'w', encoding='utf-8') as f:
-        f.writelines(processed_data)
+        f.writelines(processed_lines)
 
 
 # endregion
@@ -72,4 +82,4 @@ if __name__ == '__main__':
         relative_path = os.path.relpath(file_name, str(DIR_PATH))
         processed_data = processing(lines)
         name, ext = os.path.splitext(relative_path)
-        saving_data(processed_data=processed_data, relative_path=f'{name}.txt')
+        saving_data(processed_lines=processed_data, relative_path_of_file=f'{name}.txt')

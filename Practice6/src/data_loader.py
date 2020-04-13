@@ -16,7 +16,7 @@ from pathlib import Path
 
 import docx
 
-from Practice6.Utils.pdf2txt import pdf_to_text
+from Practice6 import pdf_to_text
 
 
 class ExtensionError(Exception):

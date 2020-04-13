@@ -13,7 +13,7 @@ import os
 import re
 from pathlib import Path
 
-from Practice6.data_loader import DataLoader
+from Practice6 import DataLoader
 
 # TODO: remove constant variables and make arguments parsing
 # ( will do together on the next classes )

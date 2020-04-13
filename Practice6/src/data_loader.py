@@ -179,10 +179,9 @@ class DataLoader:
         Generator expression, which yield file_path, class for reading this file, current recursion depth in file tree
         """
         self._validate_reading_dir()
-        dir_name = self.path.name
-        len_of_dir_name = len(dir_name)
+        len_dir_name = len(self.stringify_path)
         for root, subFolders, files in os.walk(self.stringify_path):
-            depth = root[len_of_dir_name:].count(os.sep) + 1
+            depth = root[len_dir_name:].count(os.sep) + 1
             for file in files:
                 file_path = os.path.join(root, file)
                 _, ext = os.path.splitext(file_path)

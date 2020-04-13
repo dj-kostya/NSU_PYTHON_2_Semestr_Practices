@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Data Processing Pipeline script - is aimed at miscellaneous data 
+Data Processing Pipeline script - is aimed at miscellaneous data
 processing and performing various techniques for information extration.
 
 Full description and code is still under development and construction.
@@ -20,11 +20,13 @@ from Practice6 import DataLoader
 DIR_PATH = Path("wiki_articles/").absolute()
 FORMATS = ['.txt', '.pdf', '.docx']
 SAVE_DIR_PATH = Path("wiki_articles_processed/")
+RAW_DATA_FILENAME = "raw_data.txt"
+DEPTH = 3
 
 
 # region AUXILIARY FUNCTIONS
 def make_directory(file_path):
-    """Checks if a directory for specified file exists and creates 
+    """Checks if a directory for specified file exists and creates
     it if not.
 
     Parameters
@@ -56,18 +58,32 @@ def processing(lines_of_file):
     return processed_lines
 
 
-def saving_data(processed_lines, relative_path_of_file):
+def saving_data_with_saving_tree(processed_lines, relative_path_of_file, encoding='utf-8'):
     """
     Function for saving data in original tree
     :param processed_lines:
     :param relative_path_of_file: path to save
+    :param encoding: encoding for output file
     :return: None
     """
     # TODO: make files saving with the same relative paths structure
     # ( right now all files will be saved in one dir, structure is lost )
     file_path = os.path.join(SAVE_DIR_PATH, relative_path_of_file)
     make_directory(file_path)
-    with open(file_path, 'w', encoding='utf-8') as f:
+    with open(file_path, 'w', encoding=encoding) as f:
+        f.writelines(processed_lines)
+
+
+def append_data_to_file(processed_lines, file_path, encoding='utf-8'):
+    """
+    Function for saving data in one file
+    :param processed_lines:
+    :param file_path: path to file for appending
+    :param encoding: encoding for output file
+    :return: None
+    """
+    make_directory(file_path)
+    with open(file_path, 'a', encoding=encoding) as f:
         f.writelines(processed_lines)
 
 
@@ -82,4 +98,8 @@ if __name__ == '__main__':
         relative_path = os.path.relpath(file_name, str(DIR_PATH))
         processed_data = processing(lines)
         name, ext = os.path.splitext(relative_path)
-        saving_data(processed_lines=processed_data, relative_path_of_file=f'{name}.txt')
+        if depth < DEPTH:
+            saving_data_with_saving_tree(processed_lines=processed_data, relative_path_of_file=f'{name}.txt')
+        else:
+            append_data_to_file(processed_lines=processed_data,
+                                file_path=os.path.join(SAVE_DIR_PATH, RAW_DATA_FILENAME))

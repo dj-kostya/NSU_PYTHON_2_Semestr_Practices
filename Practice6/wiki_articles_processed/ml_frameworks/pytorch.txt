@@ -1,6 +1,0 @@
-PyTorch is an open source machine learning library based on the Torch library,[1][2][3] used for applications such as computer vision and natural language processing.[4] It is primarily developed by Facebook's AI Research lab (FAIR).[5][6][7] It is free and open-source software released under the Modified BSD license.
-Although the Python interface is more polished and the primary focus of development, PyTorch also has a C++ interface.[8]
-A number of pieces of Deep Learning software are built on top of PyTorch, including Uber's Pyro,[9] HuggingFace's Transformers,[10] and Catalyst.[11][12]
-PyTorch provides two high-level features:[13]
-Tensor computing (like NumPy) with strong acceleration via graphics processing units (GPU)
-Deep neural networks built on a tape-based autodiff system

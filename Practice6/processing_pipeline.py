@@ -65,8 +65,6 @@ def saving_data(processed_data, relative_path):
 
 
 if __name__ == '__main__':
-
-
     data_loader = DataLoader(DIR_PATH, formats=FORMATS)
     # TODO: add a process visualization for more information
     # ( will do together on the next classes )

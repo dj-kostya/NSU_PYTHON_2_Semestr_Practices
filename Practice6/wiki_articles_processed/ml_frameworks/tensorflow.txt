@@ -1,0 +1,4 @@
+TensorFlow is a free and open-source software library for dataflow and differentiable programming across a range of tasks.
+It is a symbolic math library, and is also used for machine learning applications such as neural networks.[4] It is used for both research and production at Google.вЂЌ[4]:min 0:15/2:17вЂ‰[5]:p.2вЂ‰[4]:0:26/2:17
+TensorFlow was developed by the Google Brain team for internal Google use.
+It was released under the Apache License 2.0 on November 9, 2015.[1][6]

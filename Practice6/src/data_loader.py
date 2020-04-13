@@ -153,7 +153,7 @@ class DataLoader:
         if self.is_dir:
             difference_extension = set(formats) - set(self.__AVAILABLE_EXTENSIONS__.keys())
             if difference_extension:
-                raise ExtensionError(f'Exception {difference_extension} is not supported')
+                raise ExtensionError(f'Extensions: {difference_extension} are not supported')
             self.formats = formats
 
     def _validate_reading_dir(self):

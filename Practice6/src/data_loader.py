@@ -5,7 +5,7 @@
 
  Available sources:
     # from file
-    # from all file in directory
+    # from all files in directory
 
 
  Features:

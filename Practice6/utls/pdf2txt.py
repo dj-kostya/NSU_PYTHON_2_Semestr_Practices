@@ -13,11 +13,12 @@ It is recommended to use advanced parsing techniques and tools.
 Additionally, this parser can process only text data.
 """
 
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from io import BytesIO
+
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
-from io import BytesIO
 
 
 def pdf_to_text(path):

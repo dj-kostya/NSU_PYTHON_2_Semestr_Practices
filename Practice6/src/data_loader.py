@@ -15,8 +15,7 @@ import os
 from pathlib import Path
 
 import docx
-
-from Practice6 import pdf_to_text
+from utls.pdf2txt import pdf_to_text
 
 
 class ExtensionError(Exception):
@@ -151,6 +150,9 @@ class DataLoader:
             self.name, self.ext = os.path.splitext(self.stringify_path)
             self.reading_class = self._get_file_reading_class(self.ext)(self.abs_path)
         if self.is_dir:
+            if formats is None:
+                self.formats = set(self.__AVAILABLE_EXTENSIONS__.keys())
+                return
             difference_extension = set(formats) - set(self.__AVAILABLE_EXTENSIONS__.keys())
             if difference_extension:
                 raise ExtensionError(f'Extensions: {difference_extension} are not supported')
@@ -220,6 +222,9 @@ class DataLoader:
         :return: list of lines of this file
         """
         return self.reading_class.read_lines()
+
+    def get_stringify_path(self):
+        return self.stringify_path
 
 # region FOLDER_WALK TEST
 ########################################################################################################################
